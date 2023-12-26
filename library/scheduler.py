@@ -95,20 +95,19 @@ def CPUFrequency():
 
 
 @async_job("CPU_Load")
-@schedule(timedelta(seconds=config.THEME_DATA['STATS']['CPU']['LOAD'].get("INTERVAL", None)).total_seconds())
+@schedule(timedelta(seconds=config.THEME_DATA.get('STATS',{}).get('CPU',{}).get('LOAD',{}).get("INTERVAL", None)).total_seconds())
 def CPULoad():
     """ Refresh the CPU Load """
     # logger.debug("Refresh CPU Load")
     stats.CPU.load()
 
 
-@async_job("CPU_Load")
+@async_job("CPU_Temp")
 @schedule(timedelta(seconds=config.THEME_DATA['STATS']['CPU']['TEMPERATURE'].get("INTERVAL", None)).total_seconds())
 def CPUTemperature():
     """ Refresh the CPU Temperature """
     # logger.debug("Refresh CPU Temperature")
     stats.CPU.temperature()
-
 
 @async_job("GPU_Stats")
 @schedule(timedelta(seconds=config.THEME_DATA['STATS']['GPU'].get("INTERVAL", None)).total_seconds())

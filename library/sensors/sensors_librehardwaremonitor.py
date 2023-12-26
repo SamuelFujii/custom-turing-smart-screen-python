@@ -235,6 +235,11 @@ class Cpu(sensors.Cpu):
                 return float(sensor.Value)
 
         return math.nan
+        
+    @staticmethod
+    def cpu_name() -> str:
+        cpu = get_hw_and_update(Hardware.HardwareType.Cpu)
+        return cpu.Name
 
 
 class Gpu(sensors.Gpu):
@@ -302,6 +307,10 @@ class Gpu(sensors.Gpu):
     def is_available(cls) -> bool:
         cls.gpu_name = get_gpu_name()
         return bool(cls.gpu_name)
+        
+    @classmethod
+    def gpu_name(cls) -> str:
+        return cls.gpu_name
 
 
 class Memory(sensors.Memory):

@@ -20,7 +20,10 @@
 # For all platforms (Linux, Windows, macOS) but not all HW is supported
 
 import math
+import os
 import platform
+import re
+import subprocess
 import sys
 from enum import IntEnum, auto
 from typing import Tuple
@@ -100,6 +103,26 @@ class Cpu(sensors.Cpu):
             cpu_temp = sensors_temps['zenpower'][0].current
         return cpu_temp
 
+    @staticmethod
+    def cpu_name() -> str:
+        return Cpu.get_cpu_name()
+
+    @staticmethod
+    def get_cpu_name() -> str:
+        if platform.system() == "Windows":
+            return platform.processor()
+        elif platform.system() == "Darwin":
+            os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
+            command = "sysctl -n machdep.cpu.brand_string"
+            return subprocess.check_output(command).strip().decode('utf-8')
+        elif platform.system() == "Linux":
+            command = "cat /proc/cpuinfo"
+            all_info = subprocess.check_output(command, shell=True).decode().strip()
+            for line in all_info.split("\n"):
+                if "model name" in line:
+                    return re.sub(".*model name.*:", "", line, 1)
+        return ""
+
 
 class Gpu(sensors.Gpu):
     @staticmethod
@@ -134,6 +157,16 @@ class Gpu(sensors.Gpu):
                                "https://github.com/mathoudebine/turing-smart-screen-python/wiki/Troubleshooting#linux--macos-no-supported-gpu-found-with-an-amd-gpu-and-python-311")
 
         return DETECTED_GPU != GpuType.UNSUPPORTED
+
+    @staticmethod
+    def gpu_name() -> str:
+        global DETECTED_GPU
+        if DETECTED_GPU == GpuType.AMD:
+            return GpuAmd.gpu_name()
+        elif DETECTED_GPU == GpuType.NVIDIA:
+            return GpuNvidia.gpu_name()
+        else:
+            return "GPU not supported"
 
 
 class GpuNvidia(sensors.Gpu):
@@ -180,6 +213,17 @@ class GpuNvidia(sensors.Gpu):
             return len(GPUtil.getGPUs()) > 0
         except:
             return False
+
+    @staticmethod
+    def gpu_name() -> str:
+        nvidia_gpus = GPUtil.getGPUs()
+
+        if nvidia_gpus.count() > 0:
+            gpu_names = '-'.join([item.name for item in nvidia_gpus])
+        else:
+            gpu_names = "No GPU found"
+
+        return gpu_names
 
 
 class GpuAmd(sensors.Gpu):
@@ -255,6 +299,20 @@ class GpuAmd(sensors.Gpu):
                 return False
         except:
             return False
+
+    @staticmethod
+    def gpu_name() -> str:
+        try:
+            if pyamdgpuinfo and pyamdgpuinfo.detect_gpus() > 0:
+                amd_gpus = pyamdgpuinfo.detect_gpus()
+                return "-".join(item.name for item in amd_gpus)
+            elif pyadl and len(pyadl.ADLManager.getInstance().getDevices()) > 0:
+                amd_gpus = pyadl.ADLManager.getInstance().getDevices()
+                return "-".join(item.name for item in amd_gpus)
+            else:
+                return "No GPU found"
+        except:
+            return "No GPU found"
 
 
 class Memory(sensors.Memory):

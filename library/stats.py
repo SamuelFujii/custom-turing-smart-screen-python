@@ -227,6 +227,21 @@ class CPU:
             unit="°C"
         )
 
+    @staticmethod
+    def cpu_name():
+        cpu_name = sensors.Cpu.cpu_name()
+        cpu_name_text_data = config.THEME_DATA.get('STATS', {}).get('CPU', {}).get('CPU_NAME', {}).get('TEXT', None)
+
+        if not cpu_name:
+            cpu_name = ""
+        if cpu_name_text_data is not None:
+            display_themed_value(
+                theme_data=cpu_name_text_data,
+                value=str(cpu_name),
+                min_size=1,
+                unit=""
+            )
+
 
 def display_gpu_stats(load, memory_percentage, memory_used_mb, temperature, fps):
     theme_gpu_data = config.THEME_DATA['STATS']['GPU']
@@ -329,6 +344,19 @@ class Gpu:
     def is_available():
         return sensors.Gpu.is_available()
 
+    @staticmethod
+    def gpu_name():
+        gpu_gpu_name_text_data = config.THEME_DATA.get('STATS', {}).get('GPU', {}).get('GPU_NAME', {}).get('TEXT', None)
+        gpu_name = gpu_name = sensors.Gpu.gpu_name()
+        if not gpu_name:
+            gpu_name = ""
+        if gpu_gpu_name_text_data is not None:
+            display_themed_value(
+                theme_data=gpu_gpu_name_text_data,
+                value=str(gpu_name),
+                min_size=1,
+                unit=""
+            )
 
 class Memory:
     @staticmethod

@@ -46,6 +46,9 @@ class Cpu(sensors.Cpu):
     def temperature() -> float:
         return random.uniform(30, 90)
 
+    @staticmethod
+    def cpu_name() -> str:
+        return "CPU Random"
 
 class Gpu(sensors.Gpu):
     @staticmethod
@@ -59,7 +62,10 @@ class Gpu(sensors.Gpu):
     @staticmethod
     def is_available() -> bool:
         return True
-
+        
+    @staticmethod
+    def gpu_name() -> str:
+        return "GPU Name Random"
 
 class Memory(sensors.Memory):
     @staticmethod

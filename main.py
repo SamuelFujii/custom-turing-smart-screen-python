@@ -204,8 +204,14 @@ if __name__ == "__main__":
         scheduler.CPUTemperature()
     else:
         logger.warning("Your CPU temperature is not supported yet")
+        
+    stats.CPU.cpu_name()
+    
     if stats.Gpu.is_available():
         scheduler.GpuStats()
+
+    stats.Gpu.gpu_name()
+
     scheduler.MemoryStats()
     scheduler.DiskStats()
     scheduler.NetStats()

@@ -48,7 +48,11 @@ class Cpu(ABC):
     @abstractmethod
     def temperature() -> float:
         pass
-
+        
+    @staticmethod
+    @abstractmethod
+    def cpu_name() -> str:
+        pass
 
 class Gpu(ABC):
     @staticmethod
@@ -65,7 +69,11 @@ class Gpu(ABC):
     @abstractmethod
     def is_available() -> bool:
         pass
-
+        
+    @staticmethod
+    @abstractmethod
+    def gpu_name() -> str:
+        pass
 
 class Memory(ABC):
     @staticmethod

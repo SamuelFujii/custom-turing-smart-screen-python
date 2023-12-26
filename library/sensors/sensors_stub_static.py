@@ -57,7 +57,10 @@ class Cpu(sensors.Cpu):
     @staticmethod
     def temperature() -> float:
         return TEMPERATURE_SENSOR_VALUE
-
+        
+    @staticmethod
+    def cpu_name() -> str:
+        return "CPU Static"   
 
 class Gpu(sensors.Gpu):
     @staticmethod
@@ -72,7 +75,10 @@ class Gpu(sensors.Gpu):
     @staticmethod
     def is_available() -> bool:
         return True
-
+        
+    @staticmethod
+    def gpu_name() -> str:
+        return "GPU Name Static"
 
 class Memory(sensors.Memory):
     @staticmethod
