@@ -64,7 +64,7 @@ class Gpu(sensors.Gpu):
         return True
         
     @staticmethod
-    def gpu_name() -> str:
+    def get_gpu_name() -> str:
         return "GPU Name Random"
 
 class Memory(sensors.Memory):

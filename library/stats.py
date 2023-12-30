@@ -347,13 +347,13 @@ class Gpu:
     @staticmethod
     def gpu_name():
         gpu_gpu_name_text_data = config.THEME_DATA.get('STATS', {}).get('GPU', {}).get('GPU_NAME', {}).get('TEXT', None)
-        gpu_name = gpu_name = sensors.Gpu.gpu_name()
+        gpu_name = sensors.Gpu.get_gpu_name()
         if not gpu_name:
             gpu_name = ""
         if gpu_gpu_name_text_data is not None:
             display_themed_value(
                 theme_data=gpu_gpu_name_text_data,
-                value=str(gpu_name),
+                value=gpu_name,
                 min_size=1,
                 unit=""
             )

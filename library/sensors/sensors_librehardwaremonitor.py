@@ -309,7 +309,7 @@ class Gpu(sensors.Gpu):
         return bool(cls.gpu_name)
         
     @classmethod
-    def gpu_name(cls) -> str:
+    def get_gpu_name(cls) -> str:
         return cls.gpu_name
 
 

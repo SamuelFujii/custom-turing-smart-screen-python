@@ -72,7 +72,7 @@ class Gpu(ABC):
         
     @staticmethod
     @abstractmethod
-    def gpu_name() -> str:
+    def get_gpu_name() -> str:
         pass
 
 class Memory(ABC):

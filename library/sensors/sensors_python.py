@@ -159,7 +159,7 @@ class Gpu(sensors.Gpu):
         return DETECTED_GPU != GpuType.UNSUPPORTED
 
     @staticmethod
-    def gpu_name() -> str:
+    def get_gpu_name() -> str:
         global DETECTED_GPU
         if DETECTED_GPU == GpuType.AMD:
             return GpuAmd.gpu_name()
